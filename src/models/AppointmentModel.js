@@ -14,9 +14,9 @@ const apponitmentSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    default: 'APPROVED',
+    default: 'OPENED',
     enum: {
-      values: ['APPROVED', 'CANCELED'],
+      values: ['APPROVED', 'CANCELED', 'OPENED'],
       message: 'Status is either: APPROVED or CANCELED',
     },
   },
