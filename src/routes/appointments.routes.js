@@ -5,6 +5,7 @@ const {
   getAllAppointmentsController,
   getAppointmentController,
   updateAppointmentController,
+  deleteAppointmentController,
 } = require('../controllers/appointmentsController')
 
 const router = Router()
@@ -17,6 +18,10 @@ router
 router
   .route('/:id')
   .get(getAppointmentController)
+  .delete(deleteAppointmentController)
+
+router
+  .route('/approve-or-cancel-appointment/:id')
   .patch(updateAppointmentController)
 
 module.exports = router
