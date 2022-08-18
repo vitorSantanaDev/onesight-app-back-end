@@ -16,7 +16,7 @@ exports.createAppointmentController = async (req, res) => {
   try {
     const appointment = await AppointmentModel.create(req.body)
 
-    return res.status(200).json({
+    return res.status(201).json({
       status: 'success',
       data: {
         appointment,
@@ -31,7 +31,9 @@ exports.getAppointmentController = async (req, res) => {
   try {
     const { id: appointmentID } = req.params
 
-    const appointment = await AppointmentModel.findById(appointmentID)
+    const appointment = await AppointmentModel.findById(appointmentID).select(
+      '-__v'
+    )
 
     return res.status(200).json({
       status: 'success',
@@ -47,9 +49,11 @@ exports.getAppointmentController = async (req, res) => {
 exports.updateAppointmentController = async (req, res) => {
   try {
     const { id: appointmentID } = req.params
+    const { status } = req.body
+
     const newAppointment = await AppointmentModel.findByIdAndUpdate(
       appointmentID,
-      req.body,
+      { status },
       {
         new: true,
         runValidators: true,
@@ -61,6 +65,20 @@ exports.updateAppointmentController = async (req, res) => {
       data: {
         newAppointment,
       },
+    })
+  } catch (err) {
+    console.error(err.message)
+  }
+}
+
+exports.deleteAppointmentController = async (req, res) => {
+  try {
+    const { id: appointmentID } = req.params
+
+    await AppointmentModel.findByIdAndDelete(appointmentID)
+
+    return res.status(200).json({
+      status: 'success',
     })
   } catch (err) {
     console.error(err.message)
