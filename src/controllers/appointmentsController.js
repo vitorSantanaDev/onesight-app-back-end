@@ -46,7 +46,7 @@ exports.getAppointmentController = async (req, res) => {
   }
 }
 
-exports.updateAppointmentController = async (req, res) => {
+exports.approveOrCancelAppointmentController = async (req, res) => {
   try {
     const { id: appointmentID } = req.params
     const { status } = req.body
@@ -54,6 +54,29 @@ exports.updateAppointmentController = async (req, res) => {
     const newAppointment = await AppointmentModel.findByIdAndUpdate(
       appointmentID,
       { status },
+      {
+        new: true,
+        runValidators: true,
+      }
+    )
+
+    return res.status(200).json({
+      status: 'success',
+      data: {
+        newAppointment,
+      },
+    })
+  } catch (err) {
+    console.error(err.message)
+  }
+}
+
+exports.updatingAppointmentController = async (req, res) => {
+  try {
+    const { id: appointmentID } = req.params
+    const newAppointment = await AppointmentModel.findByIdAndUpdate(
+      appointmentID,
+      req.body,
       {
         new: true,
         runValidators: true,
