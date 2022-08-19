@@ -20,6 +20,10 @@ const apponitmentSchema = new mongoose.Schema({
       message: 'Status is either: APPROVED or CANCELED',
     },
   },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
 })
 
 const AppointmentModel = mongoose.model('AppointmentModel', apponitmentSchema)
